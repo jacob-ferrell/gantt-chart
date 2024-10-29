@@ -2,32 +2,64 @@
 COLORS = [
     # red
     '#b91c1c',
-    '#f87171',
     # orange
     '#c2410c',
-    '#fb923c',
     # yellow
     '#a16207',
-    '#facc15',
     # lime
     '#4d7c0f',
-    '#a3e635',
     # emerald
     '#047857',
-    '#34d399',
     # cyan
     '#0e7490',
-    '#22d3ee',
     # blue
     '#1d4ed8',
-    '#60a5fa',
     # violet
     '#6d28d9',
-    '#a78bfa',
     # fuchsia
     '#a21caf',
-    '#e879f9',
     # pink
     '#be185d',
-    '#f472b6',
+]
+
+PATTERNS = [
+    '',
+    'x',
+]
+
+
+LEGEND_DATA = [
+
+    # Maintenance legend entry
+    dict(
+        x=[None],
+        y=[None],
+        mode='markers',
+        marker=dict(size=10, color='white', line=dict(color='black', width=1), symbol='square'),  # White box with black border
+        name='Maintenance',
+        legendgroup='Maintenance',  
+        showlegend=True,
+    ),
+    # Overlap legend entry
+    dict(
+        x=[None],  
+        y=[None],
+        mode='lines',
+        line_dash='dot',
+        line_color='black',  
+        name='Overlap',  
+        legendgroup='Overlap',  
+        showlegend=True,  
+    ),
+    # Docking legend entry
+    dict(
+        x=[None],
+        y=[None],
+        mode='markers',
+        marker=dict(size=10, color='white', line=dict(color='black', width=1), symbol='x'),  # White box with 'x' pattern
+        name='Docking',
+        legendgroup='Docking',  
+        showlegend=True,
+    ),
+    
 ]

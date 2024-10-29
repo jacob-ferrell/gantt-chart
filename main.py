@@ -1,3 +1,4 @@
-from utils.create_gantt_chart import create_gantt_chart
+from models.gantt_chart import GanttChart
 
-create_gantt_chart()
+chart = GanttChart()
+chart.display()
