@@ -1,10 +1,11 @@
 from utils.create_gantt_data import create_gantt_data
 import plotly.express as px
 import plotly.graph_objects as go
-from constants import COLORS, PATTERNS, LEGEND_DATA
+from constants import COLORS, PATTERNS, LEGEND_DATA, MODE_CHOICES
 
 class GanttChart:
     def __init__(self):
+        self.get_mode() # Get light/dark mode from user
         self.df = create_gantt_data() # Create dataframe
         self.fig = self.create_timelines() # Create timeline bars
         self.style_bars() # Style timeline bars
@@ -47,7 +48,7 @@ class GanttChart:
                 self.fig.add_shape(
                     type='line',
                     line_dash='dot',
-                    line_color='black',
+                    line_color='black' if not self.is_dark_mode else 'white',
                     x0=row['Overlap_Start'],
                     x1=row['Overlap_End'],
                     y0=y,
@@ -59,19 +60,39 @@ class GanttChart:
     # Generate legend from LEGEND_DATA
     def create_legend(self):
         for data in LEGEND_DATA:
+            # Change colors if dark mode is selected
+            if self.is_dark_mode:
+                if 'line_color' in data:
+                    data['line_color'] = 'white'
+                if 'marker' in data:
+                    data['marker']['color'] = 'black'
+                    data['marker']['line']['color'] = 'white'
+                    
             self.fig.add_trace(go.Scatter(data))
 
 
     # Set axis titles and yaxis tickangle
     def update_layout(self):
-        self.fig.update_layout(
+        layout_options = dict(
             xaxis_title='Date',
             yaxis_title='Ship',
             barmode='stack',
             legend_title_text='Legend',
             yaxis_tickangle=-30,
-            #template='plotly_dark',
         )
+
+        if self.is_dark_mode:
+            layout_options['template'] = 'plotly_dark'
+        self.fig.update_layout(layout_options)
+
+    # Get choice of light/dark mode from user
+    def get_mode(self):
+        choice = None
+        acceptable_inputs = ('1', '2')
+        while choice not in acceptable_inputs:
+            choice = input('\nSelect an option: \n1: Light Mode\n2: Dark Mode\n')
+
+        self.is_dark_mode = choice == '2'
 
     def display(self):
         self.fig.show()

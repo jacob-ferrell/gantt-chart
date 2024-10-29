@@ -1,5 +1,5 @@
 # List of colors to be used in order for each bar
-COLORS = [
+COLORS = (
     # red
     '#b91c1c',
     # orange
@@ -20,15 +20,15 @@ COLORS = [
     '#a21caf',
     # pink
     '#be185d',
-]
+)
 
-PATTERNS = [
+PATTERNS = (
     '',
     'x',
-]
+)
 
 
-LEGEND_DATA = [
+LEGEND_DATA = (
 
     # Maintenance legend entry
     dict(
@@ -62,4 +62,9 @@ LEGEND_DATA = [
         showlegend=True,
     ),
     
-]
+)
+
+MODE_CHOICES = (
+    'plotly_light',
+    'plotly_dark',
+)
