@@ -43,14 +43,15 @@ class GanttChart:
     def create_overlap_lines(self):
         for i, row in self.df.iterrows():
             if not i % 2:
+                y = i + .5
                 self.fig.add_shape(
                     type='line',
                     line_dash='dot',
                     line_color='black',
                     x0=row['Overlap_Start'],
                     x1=row['Overlap_End'],
-                    y0=i + .5,
-                    y1=i + .5,
+                    y0=y,
+                    y1=y,
                     legendgroup='Overlap',
                     name='Overlap', 
                 )
@@ -65,9 +66,9 @@ class GanttChart:
     def update_layout(self):
         self.fig.update_layout(
             xaxis_title='Date',
-            yaxis_title='Ships',
+            yaxis_title='Ship',
             barmode='stack',
-            legend_title_text='',
+            legend_title_text='Legend',
             yaxis_tickangle=-30,
             #template='plotly_dark',
         )
