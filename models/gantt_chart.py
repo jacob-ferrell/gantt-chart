@@ -1,7 +1,7 @@
 from utils.create_gantt_data import create_gantt_data
 import plotly.express as px
 import plotly.graph_objects as go
-from constants import COLORS, PATTERNS, LEGEND_DATA, MODE_CHOICES
+from constants import COLORS, PATTERNS, LEGEND_DATA
 
 class GanttChart:
     def __init__(self):
@@ -94,6 +94,7 @@ class GanttChart:
 
         self.is_dark_mode = choice == '2'
 
+    # Generate and display web interface
     def display(self):
         self.fig.show()
        

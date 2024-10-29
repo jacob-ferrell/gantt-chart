@@ -63,8 +63,3 @@ LEGEND_DATA = (
     ),
     
 )
-
-MODE_CHOICES = (
-    'plotly_light',
-    'plotly_dark',
-)
