@@ -1,35 +1,43 @@
 import plotly.express as px
 from utils.create_gantt_data import create_gantt_data
+from constants import COLORS
 
 # create the gantt chart from the processed data
 def create_gantt_chart():
-  # Generate the DataFrame
+    # Generate the DataFrame
     df = create_gantt_data()
-    
-    # Extract the unique ship names in the original order
-    unique_ships = df['Resource'].unique()
+
+
     
     # Plot the Gantt chart
     fig = px.timeline(
         df,
         x_start='Start',
         x_end='End',
-        y='Y',  # Use numeric y values to allow stacking
-        color='Task',
-        title='Ship Docking and Maintenance Periods',
-        hover_name="Resource"
+        y='Resource',  
+        title='Ship Maintenance and Docking Periods',
+        hover_name="Resource_Task",
+
     )
     
     # Update layout to show only ship names in the specified order
     fig.update_layout(
         xaxis_title='Date',
+        yaxis=dict({
+            'categoryorder': 'array',
+            'categoryarray': df.index
+        }),
+        yaxis_title='Ships',
         barmode='overlay',
-        yaxis=dict(
-            title='Ships',
-            tickvals=[i * 2 for i in range(len(unique_ships))],  # Sets spacing for Y labels
-            ticktext=unique_ships,  # Ship names as labels
-        ),
-        legend_title_text='Task Type'
+        legend_title_text='Task Type',
+        #template='plotly_dark',
+    )
+
+    fig.update_yaxes(autorange='reversed')
+    
+    # Color each bar based on index in COLORS list 
+    fig.update_traces(
+        marker_color=[COLORS[i] for i, _ in df.iterrows() ]
     )
 
     fig.show()

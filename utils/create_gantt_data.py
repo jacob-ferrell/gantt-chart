@@ -7,8 +7,6 @@ def create_gantt_data():
     data = []
     
     for i, ship in enumerate(ships):
-        # create unique y value for ship, leaving space for value for maint/dock
-        ship_y_value = i * 2
 
         # add maintenance and docking data
         for j, task in enumerate(['maintenance', 'docking']):
@@ -18,14 +16,20 @@ def create_gantt_data():
                 'Start': period.start,
                 'End': period.end,
                 'Duration': period.duration,
-                'Resource': ship.name,
-                'Y': ship_y_value - (j * 1.5) #if j == 1 else ship_y_value + (j * 2.75)
+                'Resource': ship.name if not j else ' ' * i,
+                'Resource_Task': f'{ship.name} - {task.capitalize()}',
+                'Ship_Index': i,
+                'Task_Index': j,
+                'Index': len(data)
             })
 
     df = pd.DataFrame(data)
+    df = df.sort_values(by=['Ship_Index', 'Task_Index']).reset_index(drop=True)
+    
+    return df
 
 
-    return df.sort_values(by=['Resource', 'Task'])
+
     
 
 
