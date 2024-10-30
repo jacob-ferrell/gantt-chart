@@ -35,6 +35,9 @@ git clone git@github.com:jacob-ferrell/gantt-chart.git # SSH
 git clone https://github.com/jacob-ferrell/gantt-chart.git # HTTPS
 ```
 3. Change working directory to the root folder of the cloned repository 
+```bash
+cd gantt-chart
+```
 3. (Optional) It is recommended to install dependencies and run the program within a venv (virtual environment)
 ```bash
 # Create virtual environment
@@ -43,7 +46,9 @@ python -m venv venv
 # Activate virtual environment
 source venv/bin/activate  # For Unix/macOS
 .\venv\Scripts\activate   # For Windows
-
+```
+4. Install dependences
+```bash
 # Install dependencies
 pip install -r requirements.txt
 ```
