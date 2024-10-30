@@ -1,26 +1,40 @@
 # List of colors to be used in order for each bar
-COLORS = (
-    # red
-    '#b91c1c',
-    # orange
-    '#c2410c',
-    # yellow
-    '#a16207',
-    # lime
-    '#4d7c0f',
-    # emerald
-    '#047857',
-    # cyan
-    '#0e7490',
-    # blue
-    '#1d4ed8',
-    # violet
-    '#6d28d9',
-    # fuchsia
-    '#a21caf',
-    # pink
-    '#be185d',
-)
+COLORS = {
+    'ROY G BIV': (
+        # red
+        '#b91c1c',
+        # orange
+        '#c2410c',
+        # yellow
+        '#a16207',
+        # lime
+        '#4d7c0f',
+        # emerald
+        '#047857',
+        # cyan
+        '#0e7490',
+        # blue
+        '#1d4ed8',
+        # violet
+        '#6d28d9',
+        # fuchsia
+        '#a21caf',
+        # pink
+        '#be185d',
+    ),
+
+    'SHADES OF GRAY': (
+        # Shades of gray going from dark to lighter, 
+        # avoiding going too light as white is hard to see
+        '#111827',  # 900
+        '#1f2937',  # 800
+        '#374151',  # 700
+        '#4b5563',  # 600
+        '#6b7280',  # 500
+        '#9ca3af',  # 400
+        '#d1d5db',  # 300
+    )
+}
 
 PATTERNS = (
     '',

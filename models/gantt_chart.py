@@ -7,6 +7,7 @@ class GanttChart:
     def __init__(self):
         #self.get_mode() # Get light/dark mode from user
         self.is_dark_mode = False # Auto set dark mode off for development
+        self.get_color_palette() # Get color palette choice from user
         self.df = create_gantt_data() # Create dataframe
         self.fig = self.create_timelines() # Create timeline bars
         self.style_bars() # Style timeline bars
@@ -46,8 +47,8 @@ class GanttChart:
     # Color/style bars
     def style_bars(self):
         self.fig.update_traces(
-            # Color each bar based on ship index in COLORS list, cycle through colors if number of ships exceeds number of colors for scalability
-            marker_color=[COLORS[row['Ship_Index'] % len(COLORS)] for _, row in self.df.iterrows() ], 
+            # Color each bar based on ship index in color_palette list, cycle through colors if number of ships exceeds number of colors for scalability
+            marker_color=[self.color_palette[row['Ship_Index'] % len(self.color_palette)] for _, row in self.df.iterrows() ], 
             marker_pattern_shape=[PATTERNS[row['Task_Index']] for _,row in self.df.iterrows()], # Style each bar based on odd/even index
         )
 
@@ -107,9 +108,16 @@ class GanttChart:
         acceptable_inputs = ('1', '2')
         while choice not in acceptable_inputs:
             choice = input('\nSelect an option: \n1: Light Mode\n2: Dark Mode\n')
-
         self.is_dark_mode = choice == '2'
 
+    # Get choice of color palette from user:
+    def get_color_palette(self):
+        choice = None
+        acceptable_choices = ('1', '2')
+        while choice not in acceptable_choices:
+            choice = input('\nSelect one of the following color palettes:\n1. ROY G BIV (Well suited for light/dark mode)\n2. SHADES OF GRAY (Best in light mode)\n')
+
+        self.color_palette = COLORS.get(('ROY G BIV', 'SHADES OF GRAY')[int(choice) - 1])
     # Generate and display web interface
     def display(self):
         self.fig.show()

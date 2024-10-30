@@ -31,7 +31,7 @@ def create_gantt_data():
 
     # Sort dataframe by ship index, then when those are the same by task index
     df = df.sort_values(by=['Ship_Index', 'Task_Index']).reset_index(drop=True)
-    print(df) 
+
     return df
 
 
