@@ -5,14 +5,19 @@ import pandas as pd
 def create_gantt_data():
     ships = generate_ship_list()
     data = []
-    
+
+    # Each key in ships dictionary represents a unique ship
+    # so i can be used as a unique index for each ship 
     for i, ship_name in enumerate(ships.keys()):
+
+        # Iterate through each ship object in the ships dictionary
         for ship in ships[ship_name]:
-            # Add maintenance and docking data
+
+            # Add maintenance and docking data with j used as an index 
+            # to signify task type
             for j, task in enumerate(['maintenance', 'docking']):
                 period = getattr(ship, task)
-                # Get overlap period, if any, for highlighting
-                overlap = ship.overlap
+                overlap = ship.overlap # Get overlap period, if any, for highlighting
                 data.append({
                     'Task': task.capitalize(),
                     'Start': period.start,
