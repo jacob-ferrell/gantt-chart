@@ -1,7 +1,6 @@
 import pandas as pd
 from constants import DEMO_SHIP_DATA
 from models.ship import Ship
-from models.time_period import TimePeriod
 
 
 class GanttChartData:
@@ -12,30 +11,26 @@ class GanttChartData:
 
 
     # read in dataset and create a dictionary of Ship objects
-    def generate_ship_list(self):
+    def generate_ship_dict(self):
         df = pd.read_excel('dataset.xlsx')
         
         # Add demo data if chosen by user
         if self.has_demo_data:
             df = self.add_demo_data(df)
         
-        # Use a dict where the ship name is the key and the val is list of ship objects so 
-        # multiple time periods can be supported for each ship
-        ships = {} 
+        # Use a dict to handle multiple time periods for each ship 
+        ships = dict()
 
         for _, row in df.iterrows():
-            ship = Ship(
-                name=row['Ship Name'],
-                maintenance=TimePeriod(
-                    start=row['Maintenance Start Date'],
-                    end=row['Maintenance End Date']
-                ),
-                docking=TimePeriod(
-                    start=row['Docking Start Date'],
-                    end=row['Docking End Date']
-                )  
-            )
-            ships[ship.name] = ships.get(ship.name, []) + [ship]
+            # Instantiate ship object from dataset row
+            ship = Ship(row)
+            # Merge ship object with existing rows for that ship
+            if ship.name in ships:
+                ships[ship.name].merge(ship)
+                continue
+            
+            # Add ship to dictionary with ship name as key
+            ships[ship.name] = ship
         
         self.ships =  ships
     
@@ -52,24 +47,24 @@ class GanttChartData:
         # Convert date fields to same timestamp objects as original dataset
         demo_df[date_columns] = demo_df[date_columns].apply(pd.to_datetime)
 
-        # concat original dataset with formatted demo dataset
+        # Concat original dataset with formatted demo dataset
         return pd.concat([df, demo_df], ignore_index=True)
 
     # Generate the dataframe to be used for generating the chart
     def create_chart_data(self):
-        self.generate_ship_list()
+        self.generate_ship_dict()
         data = []
 
-        # Each key in ships dictionary represents a unique ship
+        # Each value in ships dictionary represents a ship
         # so i can be used as a unique index for each ship 
-        for i, ship_name in enumerate(self.ships.keys()):
-            # Iterate through each ship object in the ships dictionary
-            for ship in self.ships[ship_name]:
+        for i, ship in enumerate(self.ships.values()):
+            # Iterate through each maintenance/docking period pair for each ship
+            for period_pair in self.ships[ship.name].maintenance_docking_pairs:
                 # Add maintenance and docking data with j used as an index 
                 # to signify task type
                 for j, task in enumerate(['maintenance', 'docking']):
-                    period = getattr(ship, task)
-                    overlap = ship.overlap # Get overlap period, if any, for highlighting
+                    period = getattr(period_pair, task)
+                    overlap = period_pair.overlap # Get overlap period, if any, for highlighting
                     data.append({
                         'Task': task.capitalize(),
                         'Start': period.start,
