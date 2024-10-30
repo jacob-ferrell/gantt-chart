@@ -63,3 +63,36 @@ LEGEND_DATA = (
     ),
     
 )
+
+DEMO_SHIP_DATA = {
+    'Ship Name': (
+        'USS George Washington', 'USS John Adams', 'USS Thomas Jefferson',
+        'USS James Madison', 'USS James Monroe', 'USS John Qunicy Adams',
+        'USS Andrew Jackson', 'USS Martin Van Buren', 'USS Germantown',
+        'USS John Tyler'
+    ),
+    'Maintenance Start Date': (
+        '10/1/2025', '10/1/2025', '4/1/2026', 
+        '4/1/2027', '7/1/2027', '10/1/2027',
+        '4/1/2028', '4/1/2028', '7/1/2028', 
+        '4/20/2029'
+    ),
+    'Maintenance End Date': (
+        '1/1/2026', '1/1/2026', '7/1/2026',
+        '7/1/2027', '10/1/2027', '1/1/2028',
+        '7/1/2028', '7/1/2028', '10/1/2028',
+        '8/20/2029'
+    ),
+    'Docking Start Date': (
+        '10/1/2025', '10/1/2025', '4/1/2026',
+        '4/1/2027', '7/1/2027', '11/16/2027',
+        '4/16/2028', '4/1/2028', '7/16/2028',
+        '4/20/2029'
+    ),
+    'Docking End Date': (
+        '11/1/2025', '12/15/2025', '4/30/2026',
+        '5/1/2027', '9/1/2027', '12/15/2027',
+        '6/1/2028', '6/15/2028', '8/31/2028',
+        '7/30/2029'
+    ),
+}

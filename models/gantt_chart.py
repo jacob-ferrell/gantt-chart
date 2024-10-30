@@ -5,7 +5,8 @@ from constants import COLORS, PATTERNS, LEGEND_DATA
 
 class GanttChart:
     def __init__(self):
-        self.get_mode() # Get light/dark mode from user
+        #self.get_mode() # Get light/dark mode from user
+        self.is_dark_mode = False # Auto set dark mode off for development
         self.df = create_gantt_data() # Create dataframe
         self.fig = self.create_timelines() # Create timeline bars
         self.style_bars() # Style timeline bars
@@ -16,7 +17,7 @@ class GanttChart:
 
     # Create bars for maintenance/docking timelines 
     def create_timelines(self):
-        return px.timeline(
+        fig = px.timeline(
             self.df,
             x_start='Start',
             x_end='End',
@@ -25,32 +26,47 @@ class GanttChart:
             hover_name="Resource_Task",
             hover_data={
                 'Resource': False,
-                'Start': True,
-                'End': True,
+                'Start': '|%m-%d-%Y',
+                'End': '|%m-%d-%Y',
                 'Duration (days)': True,
+                'Overlap Start': '|%m-%d-%Y',
+                'Overlap End': '|%m-%d-%Y',
+                'Overlap Duration (days)': True,
             },
             text='Duration (days)',
         )
+        # Set the x tick interval to every 3 months
+        fig.update_xaxes(
+            dtick='M3',
+            tickformat='%b %Y',
+        ) 
+
+        return fig
 
     # Color/style bars
     def style_bars(self):
         self.fig.update_traces(
             # Color each bar based on ship index in COLORS list, cycle through colors if number of ships exceeds number of colors for scalability
-            marker_color=[COLORS[int(row['Ship_Index']) % len(COLORS)] for _, row in self.df.iterrows() ], 
-            marker_pattern_shape=[PATTERNS[i % 2] for i, _ in self.df.iterrows()], # Style each bar based on odd/even index
+            marker_color=[COLORS[row['Ship_Index'] % len(COLORS)] for _, row in self.df.iterrows() ], 
+            marker_pattern_shape=[PATTERNS[row['Task_Index']] for _,row in self.df.iterrows()], # Style each bar based on odd/even index
         )
 
     # Add dotted line between each timeline to highlight overlapping maintenance/docking periods
     def create_overlap_lines(self):
-        for i, row in self.df.iterrows():
-            if not i % 2:
-                y = i + .5
+        for _, row in self.df.iterrows():
+            # Skip row if there's no overlap
+            if row['Overlap Start'] == 0:
+                continue
+            # Only create line for maintenance time periods, so there is one line per main/dock pair
+            if row['Task_Index'] == 0:
+                # Use same y value for each ship, based on index
+                y = row['Ship_Index'] * 2 + .5
                 self.fig.add_shape(
                     type='line',
                     line_dash='dot',
                     line_color='black' if not self.is_dark_mode else 'white',
-                    x0=row['Overlap_Start'],
-                    x1=row['Overlap_End'],
+                    x0=row['Overlap Start'],
+                    x1=row['Overlap End'],
                     y0=y,
                     y1=y,
                     legendgroup='Overlap',
