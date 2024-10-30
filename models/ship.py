@@ -1,4 +1,4 @@
-from utils.find_overlap import find_overlap
+from models.time_period import TimePeriod
 
 class Ship:
     # Represents each ship within the dataset
@@ -6,5 +6,5 @@ class Ship:
         self.name = name
         self.maintenance = maintenance
         self.docking = docking
-        self.overlap = find_overlap(self.maintenance, self.docking)
+        self.overlap = TimePeriod.find_overlap(self.maintenance, self.docking)
     
