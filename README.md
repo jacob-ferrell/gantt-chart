@@ -28,7 +28,12 @@ This project is a gantt chart designed to display the docking/maintenance period
 
 ### Installation
 1. Ensure Python is installed 
-2. Clone repository into desired directory with the following command: git clone [repo URL]
+2. Clone repository into desired directory with one of the following commands:
+```bash
+# Clone the repository
+git clone git@github.com:jacob-ferrell/gantt-chart.git # SSH
+git clone https://github.com/jacob-ferrell/gantt-chart.git # HTTPS
+```
 3. Change working directory to the root folder of the cloned repository 
 3. (Optional) It is recommended to install dependencies and run the program within a venv (virtual environment)
 ```bash
