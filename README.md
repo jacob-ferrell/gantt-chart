@@ -50,7 +50,8 @@ source venv/bin/activate  # For Unix/macOS
 4. Install dependences
 ```bash
 # Install dependencies
-pip install -r requirements.txt
+pip install pandas plotly openpyxl # For Windows
+pip install -r requirements.txt # For Unix/macOS
 ```
 5. Run the program
 ```bash
